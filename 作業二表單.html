@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <title>04dynamicInsert.html</title>
+    <style>
+
+       
+        .str1 {
+            border-bottom: 3px solid black;
+            margin: 30px;
+            width: 420px;
+            padding-bottom: 6px;
+        }
+        .str2 {
+            width: 420px;
+            text-align: center;
+        }
+
+        fieldset {
+            margin: 100px auto;
+            border-radius: 15px;
+            width: 500px;
+            border: 1px solid #FF60AF;
+            background-color: #FFD9EC;
+        }
+
+        p {
+            font-size: 5px;
+            color: #ADADAD;
+        }
+        body {
+            background-color: #FFECEC;
+        }
+
+        .list {
+            overflow: auto;
+            list-style-type: none;
+            background-color: rgba(245, 199, 222, 0.897);
+        }
+
+            .list li {
+                float: left;
+                width: 7em;
+                border-right: 1px solid grey;
+                line-height: 3em;
+            }
+
+                .list li a {
+                    display: block;
+                    text-align: center;
+                }
+
+                    .list li a:hover {
+                        background-color: khaki;
+                        color: mediumslateblue;
+                    }
+
+                    .list li a:link {
+                        text-decoration: none;
+                    }
+    </style>
+    <script>
+        document.getElementById("idN").onblur = chkName;
+
+        function chkName() {
+            let N = document.getElementById("idN").value;
+            let theNLen = N.length;
+            let sp2= document.getElementById("idsp2");
+
+            if (N == "")
+                sp2.innerHTML =
+                    "<img src='Images/error.png' /><span style='color:red'>不可空白</span>";
+
+            else if (theNLen >= 2) {
+                for (let i = 0; i < theNLen; i++) {
+                    let NChr = N.charAt(i).toUpperCase();
+                    if (NChr <= "\u4E00" || NChr >= "\u9FFF") {
+                        sp2.innerHTML =
+                        "<img src='Images/error.png' /><span style='color:red'>只能輸入中文</span>";
+                    } else sp2.innerHTML =
+                        "<span style='color:green'>正確</span>";break;
+                      }
+                        }
+            else
+                sp2.innerHTML =
+                    "<img src='Images/error.png' /><span style='color:red'>至少輸入2個字</span>";
+
+        }
+
+        
+        document.getElementById("idPwd").onblur = chkPassword;
+
+        function chkPassword() {
+            let thePwd = document.getElementById("idPwd").value;
+            let thePwdLen = thePwd.length;
+            let flag1 = false, flag2 = false, flag3 = false;
+            let sp = document.getElementById("idsp");
+            if (thePwd == "")
+                sp.innerHTML =
+                    "<img src='Images/error.png' /><span style='color:red'>不可空白</span>";
+            else if (thePwdLen >= 6) {
+                for (let i = 0; i < thePwdLen; i++) {
+                    let PwdChr = thePwd.charAt(i).toUpperCase();
+                    if (PwdChr >= "A" && PwdChr <= "Z")
+                        flag1 = true;
+                    else if (PwdChr >= "0" && PwdChr <= "9")
+                        flag2 = true;
+                    else if (PwdChr == "!" || PwdChr == "@" || PwdChr == "#" || PwdChr == "%" || PwdChr == "^" || PwdChr == "&" || PwdChr == "*" || PwdChr == "$")
+                        flag3 = true;
+                    //[!@#%^&*]
+                    if (flag1 && flag2 && flag3) {
+                        sp.innerHTML =
+                            "<span style='color:green'>正確</span>"; break;
+                    }
+                    /* if (flag1 && flag2 && flag3) alert("correct"); */
+                    else sp.innerHTML =
+                        "<img src='Images/error.png' /><span style='color:red'>密碼必須包含字母、數字、特殊符號</span>";
+                }
+            }
+            else
+                sp.innerHTML =
+                    "<img src='Images/error.png' /><span style='color:red'>密碼必須輸入六個以上</span>";
+        }
+
+        document.getElementById("idDate").onblur = chkDate;
+
+        function chkDate() {
+            let dt = document.getElementById("idDate").value;
+            let ddt = new String(dt);
+            let CKdate = document.getElementById("DateCheck");
+            let dddt = ddt.split("/");
+            let date = new Date(dddt[0], dddt[1] - 1, dddt[2]);
+            if (date.getMonth() + 1 != dddt[1] || date.getDate() != dddt[2]) {
+               
+                CKdate.innerHTML = "<img src='Images/error.png' /><span style='color:red'>日期格式不正確</span>"
+            } else
+               
+                CKdate.innerHTML = "<span style='color:green'>正確</span>"
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="allpage">
+    <header>
+        <h2>JavaScript Homework</h2>
+        <nav>
+            <ul class="list">
+
+                <li><a href="作業一九九乘法.html">homework1</a></li>
+                <li><a href="作業二表單.html">homework2</a></li>
+                <li><a href="作業三評點製作.html">homework3</a></li>
+                <li><a href="作業四輪播廣告.html">homework4</a></li>
+                <li><a href="作業五月曆.html">homework5</a></li>
+            </ul>
+
+        </nav>
+    </header>
+        </div>
+    <div id="content">
+        <article class="article">
+            <section class="section">
+                <h2>作業二 : 表單</h2>
+
+            </section>
+        </article>
+    </div>
+        <fieldset>
+            <legend>Form Check</legend>
+            <div class="str1">
+                <label>姓名:</label>
+                <input type="text" id="idN" size="6" onblur="chkName();" />
+                <span id="idsp2"></span><br />
+                <p>(1.不可空白，2.至少兩個字以上，3.必須全部為中文字)</p>
+            </div>
+
+
+            <div class="str1">
+                <label>密碼:</label>
+                <input type="password" id="idPwd" size="6" onblur="chkPassword();" />
+                <span id="idsp"></span><br />
+                <p>(1.不可空白，2.至少6個字且必須包含英文字母、數字、特殊字元[!@#%^&*])</p>
+            </div>
+
+            <div class="str1">
+                <label>日期:</label>
+                <input type="text" id="idDate" size="6" onblur="chkDate();" />
+                <span id="DateCheck"></span><br />
+                <p>格式:西元年/月/日 yyyy/MM/dd</p>
+            </div>
+
+            <div class="str2">
+                <input id="Submit1" type="submit" value="送出" />
+                <input id="Reset1" type="reset" value="清除" />
+            </div>
+
+        </fieldset>
+    </div>
+</body>
+</html>
